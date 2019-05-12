@@ -1,4 +1,4 @@
-// colleciton of combinators
+// Colleciton of combinators
 
 //    Ibis (identity)
 //    I := λa.a
@@ -31,7 +31,22 @@ const T = a => b => a
 //    F := λab.b := KI
 const F = a => b => b
 
-//    Not (negation)
+//    not (negation)
+//    not := λp.pFT := C
+const not = p => p(F)(T)
 
-const res = K(T)(F)
+//    and (conjunction)
+//    and := λpq.pqF := λpq.pqp
+const and = p => q => p(q)(p)
+
+//    or (disjunction)
+//    or := λpq.pTq := λpq.ppq := M*
+const or = p => q => p(p)(q)
+
+//    beq (boolean)
+//    beq := λpq.p(qTF)(qFT)
+//        := λpq.pq(NOT q)
+const beq = p => q => p(q)(not(q))
+
+const res = beq(F)(F)
 console.log(res)
